@@ -1,2 +1,0 @@
-# ImagineCup
-Happy Family project
