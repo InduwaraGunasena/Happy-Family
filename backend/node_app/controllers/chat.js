@@ -17,9 +17,8 @@ const chatSchema = new mongoose.Schema({
         default: false
     },
     members: [{
-        user : {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
+        name : {
+            type: String
         }
         ,
         role: {
@@ -33,12 +32,10 @@ const chatSchema = new mongoose.Schema({
         default: null
     },
     groupInitialAdmin: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        type: String
     },
     Admins: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        type: String
     }],
     groupPhoto: {
         type: String,
@@ -64,7 +61,7 @@ async function createChat(title, isGrouped, groupInitialAdmin, role, groupPhoto)
         groupPhoto: groupPhoto,
         Admins: [groupInitialAdmin],
         members: [{
-            user: groupInitialAdmin,
+            name: groupInitialAdmin,
             role: role
         }],
         date: Date.now()
@@ -74,7 +71,14 @@ async function createChat(title, isGrouped, groupInitialAdmin, role, groupPhoto)
     return chat;
 }
 
-async function addMember(id, memberId, memberRole) {
+async function familyStat(chatId){
+    let chat = await Chat.findById(chatId);
+    if (!chat.isGrouped) return;
+
+    return chat.members;
+}
+
+async function addMember(id, memberName, memberRole) {
     try {
         // Find the chat by ID
         let chat = await getChat(id);
@@ -84,7 +88,7 @@ async function addMember(id, memberId, memberRole) {
         }
 
         // Check if the member is already present in the chat
-        const existingMember = chat.members.find(member => member.user.equals(memberId));
+        const existingMember = chat.members.find(member => member.name.equals(memberName));
 
         if (existingMember) {
             console.log('Member is already in the chat');
@@ -93,7 +97,7 @@ async function addMember(id, memberId, memberRole) {
 
         // Add the new member to the chat
         chat.members.push({
-            user: memberId,
+            name : memberName,
             role: memberRole
         });
 
@@ -106,7 +110,7 @@ async function addMember(id, memberId, memberRole) {
     }
 }
 
-async function removeMember(id, memberId) {
+async function removeMember(id, memberName) {
     try {
         // Find the chat by ID
         let chat = await getChat(id);
@@ -117,7 +121,7 @@ async function removeMember(id, memberId) {
         }
 
         // Find the index of the member to be removed
-        const index = chat.members.findIndex(member => member.user.equals(memberId));
+        const index = chat.members.findIndex(member => member.name.equals(memberName));
 
         // Check if the member is a part of the chat
         if (index === -1) {
@@ -163,7 +167,7 @@ async function updateGroupPhoto(id, photoURL){
     return chat;
 }
 
-async function getRole(chatId, userId) {
+async function getRole(chatId, userName) {
     try {
         // Find the chat by ID
         const chat = await Chat.findById(chatId);
@@ -173,7 +177,7 @@ async function getRole(chatId, userId) {
         }
 
         // Find the member in the chat by userId (ObjectId)
-        const member = chat.members.find(member => member.user.equals(userId));
+        const member = chat.members.find(member => member.name.equals(userName));
 
         if (!member) {
             throw new Error('Member not found in chat');
@@ -210,17 +214,8 @@ async function deleteChatIfEmpty(id) {
     }
 }
 
-async function leave(id,userId){
-    const chat = await Chat.findById(id);
-    if (!(chat.isGrouped))return;
-    chat.members.pull(userId);
-    await chat.save();
-    deleteChatIfEmpty(id);
-    await chat.save();
-    return chat;
-}
 
-async function leave(id, memberId) {
+async function leave(id, userName) {
     try {
         // Find the chat by ID
         let chat = await getChat(id);
@@ -231,7 +226,7 @@ async function leave(id, memberId) {
         }
 
         // Find the index of the member to be removed
-        const index = chat.members.findIndex(member => member.user.equals(memberId));
+        const index = chat.members.findIndex(member => member.name.equals(userName));
 
         // Check if the member is a part of the chat
         if (index === -1) {
@@ -254,25 +249,25 @@ async function leave(id, memberId) {
     }
 }
 
-async function addAdmin (id, adminId){
+async function addAdmin (id, adminName){
     //console.log("received id",id, "  adding admin ", adminId);
     let chat = await getChat(id) ;
     if (!(chat.isGrouped))return;
-    if(!chat.Admins.includes(adminId)){
-        chat.Admins.push(adminId);
+    if(!chat.Admins.includes(adminName)){
+        chat.Admins.push(adminName);
         await chat.save();
-        console.log('added admin ', adminId,' to the list of admins');
+        console.log('added admin ', adminName,' to the list of admins');
     }else{
-        console.log('already an admin ' , adminId);
+        console.log('already an admin ' , adminName);
     }
     return chat;
 }
 
-async function removeAdmin (id, adminId){
+async function removeAdmin (id, adminName){
     let chat = await getChat(id) ;
     if (!(chat.isGrouped))return;
-    if (chat.groupInitialAdmin == adminId) return;
-    chat.Admins.pull(adminId);
+    if (chat.groupInitialAdmin == adminName) return;
+    chat.Admins.pull(adminName);
     await chat.save();
     return chat;
 }
@@ -299,4 +294,4 @@ async function encrypt(password){
 //     return schema.validate(user);
 // }
 
-module.exports = {createChat,getChat,leave,updateChatTitle,updateGroupPhoto,encrypt,addAdmin,removeAdmin, getAllRoles,getRole, addMember, removeMember};
+module.exports = {createChat,familyStat,getChat,leave,updateChatTitle,updateGroupPhoto,encrypt,addAdmin,removeAdmin, getAllRoles,getRole, addMember, removeMember};

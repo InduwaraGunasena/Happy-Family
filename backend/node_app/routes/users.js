@@ -11,8 +11,8 @@ router.use(header);
 
 const userController = require('../controllers/users');
 
-router.get('/:name', async (req,res) => {
-    let user = await userController.getUser(req.params.name);
+router.get('/', async (req,res) => {
+    let user = await userController.getUser(req.body.name);
     if(!user) res.status(404).send('User not found');
     res.send(user);
 });

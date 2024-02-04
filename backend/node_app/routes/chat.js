@@ -11,6 +11,7 @@ router.use(header);
 /////////////////////////////////////users/////////////////////////////////////
 
 const chatController = require('../controllers/chat.js');
+const userController = require('../controllers/users.js');
 
 router.get('/', async (req, res) => {
     let chat = await chatController.getChat(req.body.id);
@@ -22,7 +23,7 @@ router.get('/', async (req, res) => {
 router.post('/', async(req,res) => {
 
     chat = await chatController.createChat(req.body.name,req.body.isGrouped,req.body.groupInitialAdmin,req.body.role,req.body.groupPhoto);
-
+    await userController.addFamily(req.body.groupInitialAdmin, chat._id);
     res.send(chat);
     console.log("chat added");
 
@@ -78,12 +79,13 @@ router.delete('/leave', async(req,res) => {
 })
 
 router.post('/members',isAdmin, async(req, res) => {
-    let chat = await chatController.addMember(req.body.id, req.body.memberId, req.body.role);
+    let chat = await chatController.addMember(req.body.id, req.body.memberName, req.body.role);
+    await userController.addFamily(req.body.memberName, req.body.id);
     res.send(chat);
 } );
 
 router.delete('/members',isAdmin, async(req, res) => {
-    let chat = await chatController.removeMember(req.body.id, req.body.memberId);
+    let chat = await chatController.removeMember(req.body.id, req.body.memberName);
     res.send(chat);
 } );
 

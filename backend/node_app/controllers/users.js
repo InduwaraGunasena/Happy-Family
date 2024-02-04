@@ -32,6 +32,11 @@ const userSchema = new mongoose.Schema({
         type : String,
         default : "default.png"   //change this line to add a default image for every user
     },
+    familyChat : {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Chat",
+        default: new mongoose.Types.ObjectId
+    },
     id : ObjectId,
     date : {type: Date, default: Date.now}
 });
@@ -56,10 +61,33 @@ async function createUser(username,email,password){
     return user;
 }
 
+async function addFamily(name, chatId) {
+    try {
+        // Find the user by name
+        const user = await User.findOneAndUpdate(
+            { name: name },
+            { $set: { familyChat: chatId } },
+            { new: true }
+            );
+        await user.save();
+
+        console.log('Family chat added successfully.');
+    } catch (error) {
+        console.error('Error in addFamily function:', error);
+        throw error;  // Rethrow the error to be handled elsewhere
+    }
+}
+
 async function getUser(username){
     const user = await User.findOne({name : username});
     console.log(user);
     return user;
+}
+
+async function getFamily(username){
+    const user = await getUser(username);
+    if(!user) return null;
+    return user.familyChat;
 }
 
 async function updateUser(username,email){
@@ -108,4 +136,4 @@ function validateUser(user){
     return schema.validate(user);
 }
 
-module.exports = {createUser,getUser,updateUser,deleteUser,encrypt, updateProfilePic,validateUser , encrypt, User};
+module.exports = {createUser,getUser,getFamily,updateUser,deleteUser,encrypt, updateProfilePic,validateUser , addFamily, encrypt, User};

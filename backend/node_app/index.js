@@ -20,6 +20,7 @@ const family_router = require('./routes/family');
 const home_router = require('./routes/home');
 const auth_router = require('./routes/auth');
 const chat_router = require('./routes/chat');
+const event_router = require('./routes/event');
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use('/api/family',family_router);
 app.use('/',home_router);
 app.use('/api/auth',auth_router);
 app.use('/api/chat',chat_router);
+app.use('/api/events', event_router);
 
 
 // run().catch(console.dir);

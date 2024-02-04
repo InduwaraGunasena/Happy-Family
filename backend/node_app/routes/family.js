@@ -1,22 +1,23 @@
-const express= require('express');
-const Joi = require('joi');
+const express = require('express');
+const _ = require('lodash');
 const router = express.Router();
-const authent = require('../middleware/auth');
+const header = require('../middleware/header');
+const {isAdmin, isInitialAdmin} = require('../middleware/isAdmin');
+const dotenv = require('dotenv');
 
-router.get('/:id', (req,res) => {
-    res.send(req.params.id);
+dotenv.config();
+router.use(header);
+
+/////////////////////////////////////users/////////////////////////////////////
+
+const chatController = require('../controllers/chat.js');
+const userController = require('../controllers/users');
+
+router.get('/', async (req, res) => {
+    let chatId = await userController.getFamily(req.body.name);
+    let chat = await chatController.familyStat(chatId);
+    if(!chat) res.status(404).send('Chat not found');
+    res.send(chat);
 });
 
-router.get('/:id/:name', authent, (req,res) => {  //both are required
-    let data={
-        id: req.params.id,
-        name: req.params.name
-    };
-    res.send(data);
-})
-
-router.get('/', (req,res) => {
-    res.send(req.query);        //queries are optional / /api/family/1?sortBy=name
-});
-
-module.exports = router;
+module.exports = router; // export router
