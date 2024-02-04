@@ -2,7 +2,6 @@ const express = require('express');
 const _ = require('lodash');
 const router = express.Router();
 const header = require('../middleware/header');
-const {isAdmin, isInitialAdmin} = require('../middleware/isAdmin');
 const dotenv = require('dotenv');
 
 dotenv.config();

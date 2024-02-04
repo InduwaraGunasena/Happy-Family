@@ -71,11 +71,22 @@ async function createChat(title, isGrouped, groupInitialAdmin, role, groupPhoto)
     return chat;
 }
 
+async function getHappiness(chat){
+    //yet to be implemented
+    return 10.99;
+}
+
+async function getLevel(chatId){
+    //yet to be implemented
+    return 10;
+}
+
 async function familyStat(chatId){
     let chat = await Chat.findById(chatId);
     if (!chat.isGrouped) return;
-
-    return chat.members;
+    let happiness_score = await getHappiness(chat);
+    let level = await getLevel(chatId);
+    return [chat.members, happiness_score, level];
 }
 
 async function addMember(id, memberName, memberRole) {
@@ -294,4 +305,4 @@ async function encrypt(password){
 //     return schema.validate(user);
 // }
 
-module.exports = {createChat,familyStat,getChat,leave,updateChatTitle,updateGroupPhoto,encrypt,addAdmin,removeAdmin, getAllRoles,getRole, addMember, removeMember};
+module.exports = {getHappiness,getLevel,createChat,familyStat,getChat,leave,updateChatTitle,updateGroupPhoto,encrypt,addAdmin,removeAdmin, getAllRoles,getRole, addMember, removeMember};
