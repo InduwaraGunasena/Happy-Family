@@ -3,7 +3,6 @@ import 'package:flutter_nodejs_app/controllers/exports.dart';
 import 'package:flutter_nodejs_app/views/common/drawer/drawer_widget.dart';
 import 'package:flutter_nodejs_app/views/common/exports.dart';
 import 'package:flutter_nodejs_app/views/common/height_spacer.dart';
-import 'package:flutter_nodejs_app/views/ui/suggestions/widgets/suggestion_info.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -41,31 +40,20 @@ class ChannelPage extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   const HeightSpacer(size: 50),
                   Text(
-                    'You are logged in into your account on these device',
+                    'in progress...',
                     style: appstyle(16, Color(kDark.value), FontWeight.normal),
                   ),
                   const HeightSpacer(size: 50),
-                  SuggestionInfo(
-                    location: 'Nairobi KE',
-                    device: 'HP Pro',
-                    platform: 'Windows Desktop',
-                    date: loginDate,
-                    ipAdress: '192.7.8.1:1000',
-                  ),
-                  const HeightSpacer(size: 50),
-                  SuggestionInfo(
-                    location: 'Voi KE',
-                    device: 'Samsung A12',
-                    platform: 'Android Application',
-                    date: loginDate,
-                    ipAdress: '180.7.8.1:1000',
-                  ),
+                  
+
                 ],
               ),
             ),
+            
             Consumer<LoginNotifier>(
               builder: (context, value, child) {
                 return Padding(

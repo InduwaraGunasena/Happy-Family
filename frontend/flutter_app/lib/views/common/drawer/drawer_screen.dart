@@ -38,7 +38,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   0,
                   value.currentIndex == 0
                       ? Color(kLight.value)
-                      : Color(scaffoldColor.value),
+                      : Color(drawerTextColor.value),
                 ),
                 drawerItem(
                   Ionicons.chatbubble_outline,
@@ -46,7 +46,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   1,
                   value.currentIndex == 1
                       ? Color(kLight.value)
-                      : Color(scaffoldColor.value),
+                      : Color(drawerTextColor.value),
                 ),
                 drawerItem(
                   Icons.group,
@@ -54,7 +54,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   2,
                   value.currentIndex == 2
                       ? Color(kLight.value)
-                      : Color(scaffoldColor.value),
+                      : Color(drawerTextColor.value),
                 ),
                 drawerItem(
                   Icons.lightbulb_outline,
@@ -62,7 +62,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   3,
                   value.currentIndex == 3
                       ? Color(kLight.value)
-                      : Color(scaffoldColor.value),
+                      : Color(drawerTextColor.value),
                 ),
                 drawerItem(
                   Icons.timeline,
@@ -70,7 +70,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   4,
                   value.currentIndex == 4
                       ? Color(kLight.value)
-                      : Color(scaffoldColor.value),
+                      : Color(drawerTextColor.value),
                 ),
                 drawerItem(
                   Icons.video_library,
@@ -78,7 +78,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   5,
                   value.currentIndex == 5
                       ? Color(kLight.value)
-                      : Color(scaffoldColor.value),
+                      : Color(drawerTextColor.value),
                 ),
                 drawerItem(
                   Icons.settings,
@@ -86,7 +86,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   6,
                   value.currentIndex == 6
                       ? Color(kLight.value)
-                      : Color(scaffoldColor.value),
+                      : Color(drawerTextColor.value),
                 ),
               ],
             ),
@@ -102,16 +102,17 @@ class _DrawerScreenState extends State<DrawerScreen> {
         widget.indexSetter(index);
       },
       child: Container(
-        margin: EdgeInsets.only(left: 20.w, bottom: 20.h),
+        margin: EdgeInsets.only(left: 20.w, bottom: 40.h),
         child: Row(
           children: <Widget>[
             Icon(icon, color: color),
             const WidthSpacer(
-              width: 14,
+              width: 16,
             ),
+           
             ReusableText(
               text: text,
-              style: appstyle(14, color, FontWeight.w500),
+              style: appstyle(16, color, FontWeight.w500),
             ),
           ],
         ),

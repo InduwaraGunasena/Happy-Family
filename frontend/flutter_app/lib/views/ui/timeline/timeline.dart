@@ -1,26 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_nodejs_app/controllers/exports.dart';
+import 'package:flutter_nodejs_app/views/common/app_bar.dart';
 import 'package:flutter_nodejs_app/views/common/drawer/drawer_widget.dart';
 import 'package:flutter_nodejs_app/views/common/exports.dart';
-import 'package:flutter_nodejs_app/views/common/height_spacer.dart';
-import 'package:flutter_nodejs_app/views/ui/suggestions/widgets/suggestion_info.dart';
+import 'package:flutter_nodejs_app/views/ui/timeline/widget/createTask.dart';
+import 'package:flutter_nodejs_app/views/ui/timeline/widget/timeLineTile.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 
-import '../../common/app_bar.dart';
+class TimelinePage extends StatefulWidget {
+  const TimelinePage({Key? key}) : super(key: key);
 
-class TimelinePage extends StatelessWidget {
-  const TimelinePage({super.key});
+  @override
+  _TimelinePageState createState() => _TimelinePageState();
+}
+
+class _TimelinePageState extends State<TimelinePage> {
+  DateTime _dateTime = DateTime.now();
+
+  void _showDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2010),
+      lastDate: DateTime(2030),
+    ).then((value) {
+      if (value != null) {
+        setState(() {
+          _dateTime = value;
+          print("Selected date: $_dateTime");
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    String date = DateTime.now().toString();
-    var loginDate = date.substring(0, 11);
-    var zoomnotifier = Provider.of<ZoomNotifier>(context);
-    var onboardnotifier = Provider.of<OnBoardNotifier>(context);
     return Scaffold(
-      
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.h),
         child: CustomAppBar(
@@ -31,66 +45,134 @@ class TimelinePage extends StatelessWidget {
           ),
         ),
       ),
-     
+      
       backgroundColor: Color(scaffoldColor.value),
       
       body: SafeArea(
-        child: Stack(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const HeightSpacer(size: 50),
-                  Text(
-                    'You are logged in into your account on these device',
-                    style: appstyle(16, Color(kDark.value), FontWeight.normal),
-                  ),
-                  const HeightSpacer(size: 50),
-                  SuggestionInfo(
-                    location: 'Nairobi KE',
-                    device: 'HP Pro',
-                    platform: 'Windows Desktop',
-                    date: loginDate,
-                    ipAdress: '192.7.8.1:1000',
-                  ),
-                  const HeightSpacer(size: 50),
-                  SuggestionInfo(
-                    location: 'Voi KE',
-                    device: 'Samsung A12',
-                    platform: 'Android Application',
-                    date: loginDate,
-                    ipAdress: '180.7.8.1:1000',
-                  ),
-                ],
-              ),
-            ),
-            Consumer<LoginNotifier>(
-              builder: (context, value, child) {
-                return Padding(
-                  padding: EdgeInsets.all(10.0.h),
-                  child: GestureDetector(
-                    onTap: () {
-                      zoomnotifier.currentIndex = 0;
-                      onboardnotifier.isLastPage = false;
-                      Get.to(() => const OnBoardingScreen());
-                    },
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: ReusableText(
-                        text: "Sign Out of all devices",
-                        style:
-                            appstyle(16, Color(kOrange.value), FontWeight.w600),
+              padding: const EdgeInsets.all(10.0),
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 2),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  color: Colors.white,
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        onChanged: (text) {
+                          print("User typed: $text");
+                        },
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          prefixIcon: Icon(Icons.search, color: Colors.grey),
+                          hintText: "Search Event",
+                          hintStyle: TextStyle(color: Colors.grey),
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
-            )
+                    GestureDetector(
+                      onTap: _showDatePicker,
+                      child: const Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Icon(Icons.calendar_month, color: Colors.grey),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: tileDataList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return CustomTile(
+                    date: tileDataList[index].date,
+                    title: tileDataList[index].title,
+                    description: tileDataList[index].description,
+                    time: tileDataList[index].time,
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
+
+      floatingActionButton: FloatingActionButton(
+        
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) => CreateTaskDialog(),
+              
+          );
+        },
+        child: const Icon(Icons.add),
+        backgroundColor: const Color(0xFF67FAAB),
+        foregroundColor: Color.fromARGB(255, 0, 0, 0),
+        elevation: 20,
+      ),   
     );
   }
 }
+
+// Replace this with your actual data model
+class TileData {
+  final String date;
+  final String title;
+  final String description;
+  final String time;
+
+  TileData({
+    required this.date,
+    required this.title,
+    required this.description,
+    required this.time,
+  });
+}
+
+// Replace this with your actual data
+List<TileData> tileDataList = [
+  TileData(
+    date: '2023-01-30',
+    title: 'Example Title 1',
+    description: '',
+    time: '10:00 AM',
+  ),
+  TileData(
+    date: '2023-01-31',
+    title: 'Example Title 2',
+    description: 'This is an example description 2This is an example description 2This is an example description 2This is an example description 2This is an example description 2This is an example description 2This is an example description 2This is an example description 2This is an example description 2This is an example description 2This is an example description 2This is an example description 2This is an example description 2This is an example description 2This is an example description 2...',
+    time: '11:00 AM',
+  ),
+  TileData(
+    date: '2023-01-30',
+    title: 'Example Title 1',
+    description: 'This is an example description 1...',
+    time: '10:00 AM',
+  ),
+  TileData(
+    date: '2023-01-31',
+    title: 'Example Title 2',
+    description: 'This is an example description 2...',
+    time: '11:00 AM',
+  ),
+  TileData(
+    date: '2024-02-03',
+    title: 'Example Title 1',
+    description: 'This is an example description 1...',
+    time: '10:00 AM',
+  ),
+  TileData(
+    date: '2023-01-31',
+    title: 'Example Title 2',
+    description: 'This is an example description 2...',
+    time: '11:00 AM',
+  ),
+  // Add more data as needed
+];
