@@ -133,18 +133,4 @@ async function encrypt(password){
 
 ///////////////////////////////////////////////////////////////////////
 
-
-////////////////////////////validate////////////////////////
-function validateUser(user){
-    const schema = Joi.object({
-        name: Joi.string().min(3).max(50).required(),
-        email : Joi.string().min(5).max(255).email().required(),
-        password : Joi.string().min(5).max(255).required()
-        //id
-        //etc
-    });
-
-    return schema.validate(user);
-}
-
-module.exports = {createChat,getChat,updateChat,deleteChat,encrypt,validateUser , encrypt, User};
+module.exports = {getMessage,newGroupMessage,deleteMessage};

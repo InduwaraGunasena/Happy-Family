@@ -45,6 +45,48 @@ const suggestSchema = new mongoose.Schema({
 const Suggestion = mongoose.model('Suggestion', suggestSchema);
 //////////////////////////////////////////////////////////////////////////////////////
 
+async function updateLikedValue(suggestId, likedValue) {
+    try {
+        // Find and update the suggestion by ID
+        const updatedSuggestion = await Suggestion.findOneAndUpdate(
+            { _id: suggestId },
+            { $set: { liked: likedValue } },
+            { new: true }
+        );
+
+        if (!updatedSuggestion) {
+            throw new Error('Suggestion not found');
+        }
+
+        console.log('Liked value updated successfully:', updatedSuggestion);
+        return updatedSuggestion;
+    } catch (error) {
+        console.error('Error in updateLikedValue function:', error);
+        throw error;
+    }
+}
+
+async function updateDislikedValue(suggestId, dislikedValue) {
+    try {
+        // Find and update the suggestion by ID
+        const updatedSuggestion = await Suggestion.findOneAndUpdate(
+            { _id: suggestId },
+            { $set: { disliked: dislikedValue } },
+            { new: true }
+        );
+
+        if (!updatedSuggestion) {
+            throw new Error('Suggestion not found');
+        }
+
+        console.log('Disliked value updated successfully:', updatedSuggestion);
+        return updatedSuggestion;
+    } catch (error) {
+        console.error('Error in updateDislikedValue function:', error);
+        throw error;
+    }
+}
+
 async function createSuggestion(title, description, probability, imageUrl, username) {
     const newSuggest = new Suggestion({
         title: title,
@@ -101,4 +143,4 @@ async function deleteSuggest(suggestId){
     }
 }
 
-module.exports = {createSuggestion,findClosestSuggests,findAllSuggestions,deleteSuggest};
+module.exports = {createSuggestion,findClosestSuggests,findAllSuggestions,deleteSuggest,updateLikedValue,updateDislikedValue};

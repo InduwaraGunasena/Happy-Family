@@ -23,6 +23,23 @@ router.get('/all', async(req,res) =>{
     res.send(suggest);
 })
 
+router.put('/', async (req, res) => {
+    try {
+        let suggest = await suggestController.updateDislikedValue(req.body.id, req.body.disliked);
+        
+        if (!suggest) {
+            return res.status(404).send('Suggestion not found');
+        }
+
+        // Only proceed to update liked value if the suggestion was found and disliked value was updated successfully
+        suggest = await suggestController.updateLikedValue(req.body.id, req.body.liked);
+
+        res.send(suggest);
+    } catch (error) {
+        console.error('Error in PUT request:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 router.post('/', async(req,res) => {
     console.log("creating a new suggestion");
