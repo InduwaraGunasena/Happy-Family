@@ -15,13 +15,13 @@ class HeadingWidget extends StatelessWidget {
       children: <Widget>[
         ReusableText(
           text: text,
-          style: appstyle(20, Color(kDark.value), FontWeight.w500),
+          style: appstyle(18, Color(kDark.value), FontWeight.w500),
         ),
         GestureDetector(
           onTap: onTap,
           child: ReusableText(
             text: "View all",
-            style: appstyle(20, Color(kOrange.value), FontWeight.w500),
+            style: appstyle(16, Color(linkBlue.value), FontWeight.w500),
           ),
         )
       ],

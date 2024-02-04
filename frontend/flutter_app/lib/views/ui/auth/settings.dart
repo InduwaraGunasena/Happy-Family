@@ -14,10 +14,10 @@ class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
   @override
-  State<SettingsPage> createState() => _ProfilePageState();
+  State<SettingsPage> createState() => _SettingsPageState();
 }
 
-class _ProfilePageState extends State<SettingsPage> {
+class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +60,9 @@ class _ProfilePageState extends State<SettingsPage> {
                               'https://media.istockphoto.com/id/1388253782/photo/positive-successful-millennial-business-professional-man-head-shot-portrait.webp?b=1&s=170667a&w=0&k=20&c=KZM6TIhdaJAy28BA9sg0Sn-ZRd160F6HytdAKykza-s=',
                         ),
                       ),
+                      
                       const WidthSpacer(width: 20),
+                      
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -100,7 +102,9 @@ class _ProfilePageState extends State<SettingsPage> {
                 ],
               ),
             ),
+            
             const HeightSpacer(size: 20),
+            
             Stack(
               children: <Widget>[
                 Container(
@@ -161,7 +165,9 @@ class _ProfilePageState extends State<SettingsPage> {
                 )
               ],
             ),
+            
             const HeightSpacer(size: 20),
+            
             Container(
               padding: EdgeInsets.only(left: 8.w),
               width: width,
@@ -251,6 +257,7 @@ class _ProfilePageState extends State<SettingsPage> {
               ),
             ),
           ],
+          
         ),
       ),
     );

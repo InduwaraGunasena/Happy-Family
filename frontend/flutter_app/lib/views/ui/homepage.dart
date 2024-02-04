@@ -3,15 +3,37 @@ import 'package:flutter_nodejs_app/constants/app_constants.dart';
 import 'package:flutter_nodejs_app/views/common/app_bar.dart';
 import 'package:flutter_nodejs_app/views/common/app_style.dart';
 import 'package:flutter_nodejs_app/views/common/drawer/drawer_widget.dart';
-import 'package:flutter_nodejs_app/views/common/heading_widget.dart';
+import 'package:flutter_nodejs_app/views/common/happy_score_tile.dart';
 import 'package:flutter_nodejs_app/views/common/height_spacer.dart';
-import 'package:flutter_nodejs_app/views/common/search.dart';
-import 'package:flutter_nodejs_app/views/common/vertical_tile.dart';
-import 'package:flutter_nodejs_app/views/ui/jobs/job_page.dart';
-import 'package:flutter_nodejs_app/views/ui/jobs/widgets/horizontal_tile.dart';
-import 'package:flutter_nodejs_app/views/ui/search/searchpage.dart';
+import 'package:flutter_nodejs_app/views/common/notificationTile.dart';
+import 'package:flutter_nodejs_app/views/common/upcoming_event_tile.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+List<UpcomingEvent> events = [
+  UpcomingEvent(
+    title: "Event 1",
+    dateTime: DateTime(2023, 2, 15, 10, 0), // Replace with your specific date and time
+  ),
+  UpcomingEvent(
+    title: "Event 2",
+    dateTime: DateTime(2023, 2, 15, 14, 30), // Replace with your specific date and time
+  ),
+  // Add more events as needed
+];
+
+List<CustomNotification> notifications_list = [
+  CustomNotification(
+    title: "Event 1",
+    dateTime: DateTime(2023, 2, 15, 10, 0), // Replace with your specific date and time
+  ),
+  CustomNotification(
+    title: "Event 2",
+    dateTime: DateTime(2023, 2, 15, 14, 30), // Replace with your specific date and time
+  ),
+  // Add more events as needed
+];
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -55,46 +77,22 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                const HeightSpacer(size: 20),
+               
+                Image.asset('assets/images/family.png'),                
+                
+                const HeightSpacer(size: 30),              
+
+                CustomHappinessTile(happinessPercentage: 78, circleNumber: 80,),
+
                 const HeightSpacer(size: 10),
-                Text(
-                  "Search \nFind & Apply",
-                  style: appstyle(40, Color(kDark.value), FontWeight.bold),
-                ),
-                const HeightSpacer(size: 40),
-                SearchWidget(
-                  onTap: () {
-                    Get.to(() => const SearchPage());
-                  },
-                ),
-                const HeightSpacer(size: 30),
-                HeadingWidget(
-                  text: "Popular Jobs",
-                  onTap: () {
-                    Get.to(() => const JobPage(title: "Facebook", id: "12"));
-                  },
-                ),
-                const HeightSpacer(size: 15),
-                SizedBox(
-                  height: hieght * 0.28,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 4,
-                    itemBuilder: (context, index) {
-                      return JobHorizontalTile(
-                        onTap: () {},
-                      );
-                    },
-                  ),
-                ),
-                const HeightSpacer(size: 20),
-                HeadingWidget(
-                  text: "Recently Posted",
-                  onTap: () {},
-                ),
-                const HeightSpacer(size: 20),
-                VerticalTile(
-                  onTap: () {},
-                ),
+
+                UpcomingEventsTile(heading: "Upcoming Events", upcomingEvents: events),
+            
+                const HeightSpacer(size: 10),
+                
+                NotificationsTile(heading: "Notifications", notifications: notifications_list),
+                
               ],
             ),
           ),

@@ -1,0 +1,5 @@
+node_modules/
+config/
+mongodb/
+views/
+Connect_db.js

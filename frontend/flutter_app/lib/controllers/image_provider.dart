@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter_nodejs_app/constants/app_constants.dart';
 
 
-class ImageUpoader extends ChangeNotifier {
+class ImageUploader extends ChangeNotifier {
   final ImagePicker _picker = ImagePicker();
 
   List<String> imageUrl = [];

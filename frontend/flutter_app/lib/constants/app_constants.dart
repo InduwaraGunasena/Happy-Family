@@ -19,6 +19,7 @@ const drawerColor = Color.fromARGB(220, 35, 193, 205);
 const linkBlue = Color.fromARGB(255, 0, 20, 239);
 const loginTextColor = Color.fromARGB(255, 25, 25, 25);
 const loginTextColor2 = Color.fromARGB(255, 218, 255, 251);
+const drawerTextColor = Color.fromARGB(220, 97, 255, 237);
 
 
 double hieght = 812.h;
