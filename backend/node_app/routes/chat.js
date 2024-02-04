@@ -42,13 +42,23 @@ router.put('/',isAdmin, async(req, res) => {
     res.send(chat);
 });
 
+router.get('/role', async (req, res) => {
+    let role = await chatController.getRole(req.body.id, req.body.member);
+    res.send(role);
+})
+
+router.get('/roles', async (req, res) => {
+    let role = await chatController.getAllRoles();
+    res.send(role);
+})
+
 // router.delete('/', async(req, res) => {
 //     let chat = await chatController.deleteChat(req.body.id);
 //     res.send(chat);
 //     console.log("chat deleted");
 // } );
 
-router.post('/admins',isAdmin, async(req, res) => {
+router.put('/admins',isAdmin, async(req, res) => {
     let chat = await chatController.addAdmin(req.body.id, req.body.adminId);
     res.send(chat);
     console.log("Could not add admin");
@@ -61,17 +71,20 @@ router.delete('/admins',isInitialAdmin, async(req, res) => {
     console.log("admin removed");
 } );
 
-router.post('/members',isAdmin, async(req, res) => {
-    let chat = await chatController.addMember(req.body.id, req.body.memberID, req.body.role);
+router.delete('/leave', async(req,res) => {
+    let chat = await chatController.leave(req.body.id, req.body.member);
     res.send(chat);
-    console.log("Could not add member");
+    console.log('User left the chat');
+})
+
+router.post('/members',isAdmin, async(req, res) => {
+    let chat = await chatController.addMember(req.body.id, req.body.memberId, req.body.role);
+    res.send(chat);
 } );
 
 router.delete('/members',isAdmin, async(req, res) => {
     let chat = await chatController.removeMember(req.body.id, req.body.memberId);
     res.send(chat);
-
-    console.log("admin removed");
 } );
 
 // router.post('/', async (req, res) => {

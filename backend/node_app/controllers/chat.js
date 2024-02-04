@@ -56,17 +56,20 @@ chatSchema.methods.generateAuthToken = function () {
 const Chat = mongoose.model('Chat', chatSchema);
 //////////////////////////////////////////////////////////////////////////////////////
 
-async function createChat(title, isGrouped, groupInitialAdmin, role, groupPhoto){
-
+async function createChat(title, isGrouped, groupInitialAdmin, role, groupPhoto) {
     const chat = new Chat({
-        name : title,
+        name: title,
         isGrouped: isGrouped,
-        groupInitialAdmin : groupInitialAdmin,
-        groupPhoto : groupPhoto,
-        Admins : [groupInitialAdmin],
-        members : [groupInitialAdmin],
-        date : Date.now()
+        groupInitialAdmin: groupInitialAdmin,
+        groupPhoto: groupPhoto,
+        Admins: [groupInitialAdmin],
+        members: [{
+            user: groupInitialAdmin,
+            role: role
+        }],
+        date: Date.now()
     });
+
     await chat.save();
     return chat;
 }
@@ -187,10 +190,68 @@ const getAllRoles = () =>{
     return ['Mother', 'Father', 'Sister', 'Brother', 'Grand Mother, Grand Father', 'Uncle', 'Cousin', 'aunty'] // Add more roles as needed
 }
 
-async function deleteChat(id){
-    const chat = await Chat.findByIdAndDelete(id);
-    console.log(chat);
+async function deleteChatIfEmpty(id) {
+    const chat = await Chat.findById(id);
+
+    if (!chat) {
+        // Handle the case where the chat is not found
+        console.log('Chat not found.');
+        return null;
+    }
+
+    // Assuming members is an array in your schema
+    if (chat.members.length === 0) {
+        const deletedChat = await Chat.findByIdAndDelete(id);
+        console.log('Chat deleted:', deletedChat);
+        return deletedChat;
+    } else {
+        console.log('Chat not deleted. Members still exist.');
+        return chat;
+    }
+}
+
+async function leave(id,userId){
+    const chat = await Chat.findById(id);
+    if (!(chat.isGrouped))return;
+    chat.members.pull(userId);
+    await chat.save();
+    deleteChatIfEmpty(id);
+    await chat.save();
     return chat;
+}
+
+async function leave(id, memberId) {
+    try {
+        // Find the chat by ID
+        let chat = await getChat(id);
+
+        // Check if the chat is grouped
+        if (!chat.isGrouped) {
+            throw new Error('Chat is not grouped');
+        }
+
+        // Find the index of the member to be removed
+        const index = chat.members.findIndex(member => member.user.equals(memberId));
+
+        // Check if the member is a part of the chat
+        if (index === -1) {
+            throw new Error('User is not a member of this chat');
+        }
+
+        // Remove the member from the chat
+        chat.members.splice(index, 1);
+
+        // Save the updated chat
+        await chat.save();
+        deleteChatIfEmpty(id);
+        await chat.save();
+
+        console.log('member with ID', memberId, ' leaved from the chat',id);
+        return chat;
+    } catch (error) {
+        console.error('Error in leaving:', error.message);
+        throw error;
+    }
 }
 
 async function addAdmin (id, adminId){
@@ -238,4 +299,4 @@ async function encrypt(password){
 //     return schema.validate(user);
 // }
 
-module.exports = {createChat,getChat,updateChatTitle,updateGroupPhoto,deleteChat,encrypt,addAdmin,removeAdmin, getAllRoles,getRole, addMember, removeMember};
+module.exports = {createChat,getChat,leave,updateChatTitle,updateGroupPhoto,encrypt,addAdmin,removeAdmin, getAllRoles,getRole, addMember, removeMember};

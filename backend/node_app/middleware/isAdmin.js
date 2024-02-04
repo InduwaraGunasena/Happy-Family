@@ -24,13 +24,14 @@ const isAdmin = async (req, res, next) => {
 const isInitialAdmin = async (req, res, next) => {
     try {
         // Check if the user is logged in
-        if (!req.user) {
+        if (!req.body.user) {
             return res.status(401).send('Unauthorized. Please log in.');
         }
 
         // Check if the user has the 'admin' role
         const chat = await chatController.getChat(req.body.id);
-        if (!(chat.groupInitialAdmin === req.user.id)) {
+        if (!(chat.groupInitialAdmin.equals(req.body.user))) {
+            console.log(chat.groupInitialAdmin);
             return res.status(403).send('Access forbidden. Only the initial admin is allowed.');
         }
 
