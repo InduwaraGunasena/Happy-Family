@@ -12,13 +12,13 @@ router.use(header);
 const notifController = require('../controllers/notification.js');
 
 router.get('/', async (req, res) => {
-    let notif = await notifController.findClosestNotif();
+    let notif = await notifController.findClosestNotif(req.body.user);
     if(!notif) res.status(404).send('Notification not found');
     res.send(notif);
 });
 
 router.get('/all', async(req,res) =>{
-    let notif = await notifController.findAllNotif();
+    let notif = await notifController.findAllNotif(req.body.user);
     if(!notif) res.status(404).send('Notification not found');
     res.send(notif);
 })
@@ -26,7 +26,7 @@ router.get('/all', async(req,res) =>{
 
 router.post('/', async(req,res) => {
     console.log("creating a new notif");
-    let notif = await notifController.createNotif(req.body.title, req.body.date, req.body.time);
+    let notif = await notifController.createNotif(req.body.title, req.body.date, req.body.time, req.body.user);
     res.send(notif);
 
 });

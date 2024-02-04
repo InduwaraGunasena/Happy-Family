@@ -15,6 +15,7 @@ const notifSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
+    user : String,
     id: ObjectId
 });
 
@@ -22,25 +23,27 @@ const notifSchema = new mongoose.Schema({
 const Notif = mongoose.model('Notif', notifSchema);
 //////////////////////////////////////////////////////////////////////////////////////
 
-async function createNotif(title, date, time) {
+async function createNotif(title, date, time, user) {
     const notifDateTimeString = `${date}T${time}`;
     //notifDateTime: new Date("2024-02-04T18:30:00")
     const newNotif = new Notif({
         title: title,
-        notifDateTime: new Date(notifDateTimeString)
+        notifDateTime: new Date(notifDateTimeString),
+        user: user
     });
 
     await newNotif.save();
     return newNotif;
 }
 
-async function findClosestNotif(limit = 3) {
+async function findClosestNotif(username,limit = 3) {
     try {
         const currentDate = new Date();
 
         // Find up to 'limit' notifs that have not occurred yet
         const closestNotif = await Notif.find({
-            notifDateTime: { $gte: currentDate }
+            notifDateTime: { $gte: currentDate },
+            user: username
         })
         .sort({ notifDateTime: 1 }) // Sort by ascending order of notifDateTime
         .limit(limit);
@@ -52,13 +55,14 @@ async function findClosestNotif(limit = 3) {
     }
 }
 
-async function findAllNotif() {
+async function findAllNotif(username) {
     try {
         const currentDate = new Date();
 
         // Find all notifs, with closest ones listed first
         const allNotif = await Notif.find({
-            notifDateTime: { $gte: currentDate }
+            notifDateTime: { $gte: currentDate },
+            user: username
         })
         .sort({ notifDateTime: 1 }); // Sort by ascending order of notifDateTime
 

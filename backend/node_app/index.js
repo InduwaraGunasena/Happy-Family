@@ -16,12 +16,12 @@ mongoose.connect(process.env.MONGU_URL)  //returns a promise
 //////////////////////////////routes//////////////////////////////////
 
 const users_router = require('./routes/users');
-const family_router = require('./routes/family');
 const home_router = require('./routes/home');
 const auth_router = require('./routes/auth');
 const chat_router = require('./routes/chat');
-const event_router = require('./routes/event');
+const event_router = require('./routes/timeline');
 const notification_router = require('./routes/notification');
+const suggest_router = require('./routes/suggestion');
 
 const app = express();
 
@@ -35,12 +35,12 @@ app.use(express.urlencoded({extended : true}));
 app.use(express.static('public'));
 app.use(helmet());
 app.use('/api/users',users_router);
-app.use('/api/family',family_router);
-app.use('/',home_router);
+app.use('/api/home',home_router);
 app.use('/api/auth',auth_router);
 app.use('/api/chat',chat_router);
-app.use('/api/events', event_router);
+app.use('/api/timeline', event_router);
 app.use('/api/notifications',notification_router);
+app.use('/api/suggestions',suggest_router);
 
 
 // run().catch(console.dir);
