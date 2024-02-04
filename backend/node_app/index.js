@@ -21,6 +21,7 @@ const home_router = require('./routes/home');
 const auth_router = require('./routes/auth');
 const chat_router = require('./routes/chat');
 const event_router = require('./routes/event');
+const notification_router = require('./routes/notification');
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use('/',home_router);
 app.use('/api/auth',auth_router);
 app.use('/api/chat',chat_router);
 app.use('/api/events', event_router);
+app.use('/api/notifications',notification_router);
 
 
 // run().catch(console.dir);
