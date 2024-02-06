@@ -61,11 +61,11 @@ async function createUser(username,email,password){
     return user;
 }
 
-async function addFamily(name, chatId) {
+async function addFamily(email, chatId) {
     try {
         // Find the user by name
         const user = await User.findOneAndUpdate(
-            { name: name },
+            { email: email },
             { $set: { familyChat: chatId } },
             { new: true }
             );
@@ -78,17 +78,36 @@ async function addFamily(name, chatId) {
     }
 }
 
-async function getUser(username){
-    const user = await User.findOne({name : username});
+// async function getUser(username){
+//     const user = await User.findOne({name : username});
+//     console.log(user);
+//     return user;
+// }
+
+async function getUser(email){
+    const user = await User.findOne({email : email});
     console.log(user);
     return user;
 }
 
-async function getFamily(username){
-    const user = await getUser(username);
+async function getFamily(email){
+    const user = await getUser(email);
     if(!user) return null;
     return user.familyChat;
 }
+
+async function getProPic(email){
+    const user = await getUser(email);
+    if(!user) return null;
+    return user.profilePhoto;
+}
+
+// async function getId(email){
+//     const user = await getUser(email);
+//     if(!user) return null;
+//     return user._id;
+// }
+
 
 async function updateUser(username,email){
     const user = await User.findOneAndUpdate({ email: email }, { name: username }, { new: true });
@@ -107,8 +126,8 @@ async function updateProfilePic(email,profilepic){
     return user;
 };
 
-async function deleteUser(username){
-    const user = await User.findOneAndDelete({ name: username });
+async function deleteUser(email){
+    const user = await User.findOneAndDelete({ email: email });
     console.log(user);
     return user;
 
@@ -136,4 +155,4 @@ function validateUser(user){
     return schema.validate(user);
 }
 
-module.exports = {createUser,getUser,getFamily,updateUser,deleteUser,encrypt, updateProfilePic,validateUser , addFamily, encrypt, User};
+module.exports = {getProPic,createUser,getUser,getFamily,updateUser,deleteUser,encrypt, updateProfilePic,validateUser , addFamily, encrypt, User};

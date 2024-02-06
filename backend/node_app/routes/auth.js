@@ -8,6 +8,8 @@ router.use(header);
 /////////////////////////////////////login/////////////////////////////////////
 const {User} = require('../controllers/users')
 
+const userController = require('../controllers/users');
+
 router.post('/', async (req,res) => {
     ////validation////
     const result = validateUser(req.body);
@@ -23,10 +25,18 @@ router.post('/', async (req,res) => {
     const isValid = await bcrypt.compare(req.body.password,user.password);
     if (!isValid) return res.status(400).send("Invalid email or password");
 
-    ////////////////tokenization////////////////////
-    const token = user.generateAuthToken();
+    let profile = await userController.getProPic(user.email);
+    let id = user._id;
 
-    res.send(token);
+    ////////////////tokenization////////////////////
+    const userToken = user.generateAuthToken();
+
+    res.send({
+        id,
+        profile,
+        userToken
+    })
+    //res.send(token);
 });
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////

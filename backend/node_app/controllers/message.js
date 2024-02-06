@@ -13,12 +13,14 @@ const MessageSchema = new mongoose.Schema({
         default : false
     },
     sender : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        type : String
+        // type : mongoose.Schema.Types.ObjectId,
+        // ref: "User"
     },
     receiver : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        type : String
+        // type : mongoose.Schema.Types.ObjectId,
+        // ref: "User"
     },
     Group : {
         type : mongoose.Schema.Types.ObjectId,
@@ -31,10 +33,6 @@ const MessageSchema = new mongoose.Schema({
     replyingMessage : {
         type : mongoose.Schema.ObjectId,
         ref : "Message"
-    },
-    groupInitialAdmin : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref: "User"
     },
     id : ObjectId,
     date : {type: Date, default: Date.now}
