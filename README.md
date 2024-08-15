@@ -40,7 +40,10 @@ You can find more detailed information inside each folder.
 
 ## Message from the developers
 We welcome contributions to this project. Our goal is to fully develop this app to achieve its intended purpose. However, we haven't reached that level yet due to the lack of a proper dataset to train the AI model. As a result, we decided to pivot the app towards a social media platform to collect data. You can explore this interface in the **FamilyHub** section of the side drawer. Additionally, there are other issues that need attention, and we highly value your contributions to help this project succeed.
-
+  <p align="center">
+  <img src="/images/19.jpg" alt="19" width="250"/>
+  </p>
+  
 Thank you :heart:
 
 > [!NOTE]
