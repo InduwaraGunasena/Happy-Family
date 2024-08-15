@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "255553117876",
+    "project_id": "happy-family-a3963",
+    "storage_bucket": "happy-family-a3963.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:255553117876:android:62784bf3e760578a7b01e1",
+        "android_client_info": {
+          "package_name": "com.example.flutter_nodejs_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3TB_340hewBi7LpS6fHf1kT0TvQ3bIKs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
