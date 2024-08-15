@@ -49,7 +49,8 @@ Here are some screenshots of different screens in this app:
 
   <p align="center">
   <img src="/images/7.png" alt="7" width="250"/>
-  <img src="/images/8.png" alt='8" width="250"/>
+      &nbsp;&nbsp;&nbsp;
+  <img src="/images/8.png" alt="8" width="250"/>
   </p>
       
 - **My Network screen:**
@@ -57,6 +58,7 @@ Here are some screenshots of different screens in this app:
 
   <p align="center">
   <img src="/images/9.png" alt="9" width="250"/>
+      &nbsp;&nbsp;&nbsp;
   <img src="/images/10.png" alt="10" width="250"/>
   </p>
 
@@ -65,6 +67,7 @@ Here are some screenshots of different screens in this app:
 
   <p align="center">
   <img src="/images/11.png" alt="11" width="250"/>
+      &nbsp;&nbsp;&nbsp;
   <img src="/images/12.png" alt="12" width="250"/>
   </p>
   
