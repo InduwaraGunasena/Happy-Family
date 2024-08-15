@@ -78,7 +78,7 @@ Here are some screenshots of different screens in this app:
   <img src="/images/17.jpg" alt="17" width="250"/>
   </p>
       
-   - **My Channel screen:**
+   - **FamilyHub screen:**
    Families or groups can create channels to share their happy moments with others. They can receive feedback, likes, and comments on short videos or posts.
 
   <p align="center">
