@@ -75,21 +75,21 @@ Here are some screenshots of different screens in this app:
   Users can create events and reminders on this timeline. Families can also arrange events with other families to broaden their relationships.
 
   <p align="center">
-  <img src="/images/17.png" alt="17" width="250"/>
+  <img src="/images/17.jpg" alt="17" width="250"/>
   </p>
       
    - **My Channel screen:**
    Families or groups can create channels to share their happy moments with others. They can receive feedback, likes, and comments on short videos or posts.
 
   <p align="center">
-  <img src="/images/19.png" alt="19" width="250"/>
+  <img src="/images/19.jpg" alt="19" width="250"/>
   </p>
 
   - **Settings screen:**
   All necessary settings are available here.
 
   <p align="center">
-  <img src="/images/18.png" alt="1" width="250"/>
+  <img src="/images/18.jpg" alt="1" width="250"/>
   </p>
   
 > Reference: To build this app, I referred to the JobHub App (jobhub_job-app-with-nodejs-api_dbestech), created by dbestech.
